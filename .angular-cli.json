@@ -19,7 +19,11 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/bootstrap/css/bootstrap.css",
+        "assets/bootstrap/css/bootstrap-responsive.css",
+        "assets/theme/DT_bootstrap.css",
+        "assets/theme/styles.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
