@@ -1,0 +1,67 @@
+<div class="flex-line">
+  <div class="flex-row">
+    <ngx-datatable
+      class="material"
+      [rows]="listFromFilter"
+      [loadingIndicator]="loading"
+      [columnMode]="'force'"
+      [sortType]="'single'"
+      [headerHeight]="40"
+      [footerHeight]="40"
+      [limit]="10"
+      [rowHeight]="'auto'"
+      [reorderable]="true">
+
+      <ngx-datatable-column name="Статус" prop="status"></ngx-datatable-column>
+      <ngx-datatable-column name="Дата начала" prop="begin">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="end" name="Дата окончания">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="stocks" name="Состав заказа">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div *ngFor="let item of value">
+            {{ item.name }} - {{ item.count }}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Аренда" prop="total_amount"></ngx-datatable-column>
+      <ngx-datatable-column name="Залог" prop="total_deposit"></ngx-datatable-column>
+      <ngx-datatable-column name="Доставка" prop="total_deposit"></ngx-datatable-column>
+      <ngx-datatable-column name="Примечание" prop="comment"></ngx-datatable-column>
+      <ngx-datatable-column prop="giver" name="Кто выдаёт">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value.name }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="taker" name="Кто забирает">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value.name }}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  <div class="filter-box">
+    <div class="block">
+      <div class="navbar navbar-inner block-header">
+        <div class="muted pull-left"> Фильтер</div>
+      </div>
+      <div class="block-content">
+        <div class="line">
+          <div class="name">Кто выдаёт</div>
+          <label class="value">
+            <input [(ngModel)]="giver" name="giver" type="text"/>
+          </label>
+        </div>
+        <!--div class="line">
+          <button class="btn btn-primary">Применить</button>
+        </div-->
+      </div>
+    </div>
+  </div>
+</div>

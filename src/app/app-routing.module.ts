@@ -1,15 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {StubComponent} from './stub/stub.component';
+import {StubComponent} from './shared/stub/stub.component';
 
 
 const routes: Routes = [
   {path: '', component: StubComponent},
-  {path: 'order/create', component: StubComponent},
-  {path: 'order/issue', component: StubComponent},
-  {path: 'order/return', component: StubComponent},
-  {path: 'order/list/today', component: StubComponent},
-  {path: 'order/list', component: StubComponent}
+  {path: 'order', loadChildren: './order/order.module#OrderModule'}
 ];
 
 @NgModule({
