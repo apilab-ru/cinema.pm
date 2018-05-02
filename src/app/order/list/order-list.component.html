@@ -44,6 +44,11 @@
           {{ value.name }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column prop="id" name="Редактирование">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span class="btn btn-primary" (click)="editOrder(value)"><i class="icon-edit icon-white"></i></span>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
   <div class="filter-box">
@@ -58,10 +63,15 @@
             <input [(ngModel)]="giver" name="giver" type="text"/>
           </label>
         </div>
-        <!--div class="line">
-          <button class="btn btn-primary">Применить</button>
-        </div-->
+        <div class="line">
+          <button class="btn btn-success" (click)="createOrder()">
+            <i class="icon-plus icon-white"></i>
+            Создать заказ
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<app-order-create></app-order-create>

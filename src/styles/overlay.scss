@@ -1,0 +1,63 @@
+$overlay-z-index: 200;
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  top: 0;
+  width: 100%;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: $overlay-z-index;
+}
+
+.cdk-global-overlay-wrapper {
+  display: flex;
+  position: absolute;
+  z-index: $overlay-z-index;
+}
+
+.cdk-overlay-pane {
+  box-sizing: border-box;
+  pointer-events: auto;
+  position: absolute;
+  z-index: $overlay-z-index;
+}
+
+.cdk-overlay-backdrop {
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: $overlay-z-index;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, .288);
+}
+
+.cdk-overlay-transparent-backdrop,
+.cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 0;
+}
+
+.cdk-global-scrollblock {
+  overflow-y: scroll;
+  position: fixed;
+  width: 100%;
+}
+
+.backdrop-primary {
+  background: rgba(0, 0, 0, 0.31);
+}

@@ -1,0 +1,32 @@
+{
+  "begin": "2018-05-01 16:16:00",
+  "end": "2018-05-04 16:16:00",
+  "goods": [
+    {
+      "model_id": "1",
+      "count": 1,
+      "price": 300
+    },
+    {
+      "model_id": "2",
+      "count": 2,
+      "price": 600
+    },
+    {
+      "model_id": "3",
+      "count": 3,
+      "price": 900
+    }
+  ],
+  "name": "\u0412\u0430\u0441\u044f",
+  "phone1": "123123123",
+  "give_stock_id": "11",
+  "take_stock_id": "12",
+  "giver_id": "1",
+  "taker_id": "2",
+  "delivery_address_from": "231321",
+  "delivery_address_to": "3123123",
+  "comment": "123123123",
+  "total_deposit": 9100,
+  "total_amount": 1800
+}

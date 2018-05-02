@@ -5,7 +5,10 @@ import {OrderRoutingModule} from './order-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import {OrderService} from './order.service';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {OrderCreateComponent} from './create/create.component';
+import {OrderCreateItemComponent} from './create/item/order-create-item.component';
+import { GiveComponent } from './give/give.component';
 
 @NgModule({
   imports: [
@@ -13,13 +16,17 @@ import {FormsModule} from '@angular/forms';
     OrderRoutingModule,
     SharedModule,
     NgxDatatableModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     OrderService
   ],
   declarations: [
-    OrderListComponent
+    OrderListComponent,
+    OrderCreateComponent,
+    OrderCreateItemComponent,
+    GiveComponent
   ]
 })
 export class OrderModule {

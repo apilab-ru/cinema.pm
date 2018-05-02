@@ -4,8 +4,12 @@ import {StubComponent} from './shared/stub/stub.component';
 
 
 const routes: Routes = [
-  {path: '', component: StubComponent},
-  {path: 'order', loadChildren: './order/order.module#OrderModule'}
+  // {path: '', component: StubComponent},
+  {path: 'order', loadChildren: './order/order.module#OrderModule'},
+  { path: '',
+    redirectTo: 'order',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

@@ -1,0 +1,198 @@
+<app-modal>
+  <div class="block">
+    <div class="modal-header navbar-inner">
+      <div class="muted">Создание заказа</div>
+      <div class="muted">
+        <span class="btn btn-danger" (click)="close()">
+          <i class="icon-remove icon-white"></i>
+        </span>
+      </div>
+    </div>
+    <div class="block-content modal-block">
+      <form class="modal-form">
+        <div class="line">
+          <div class="cell flex">
+            <div class="name"> Имя</div>
+            <div class="value">
+              <input type='text' [(ngModel)]="order.name" name="name"/>
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name"> Телефон</div>
+            <div class="value">
+              <input type='text' name="phone" [(ngModel)]="order.phone1"/>
+            </div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="cell flex">
+            <div class="name">
+              Дата начала аренды
+            </div>
+            <div class="value">
+              <input type="datetime-local"
+                     name="begin"
+                     [(ngModel)]="order.begin"
+                     (ngModelChange)="changeDate()">
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name">
+              Дата окончания аренды
+            </div>
+            <div class="value">
+              <input type="datetime-local"
+                     name="end"
+                     [(ngModel)]="order.end"
+                     (ngModelChange)="changeDate()">
+            </div>
+          </div>
+        </div>
+        <div class="separator"></div>
+        <div class="line">
+          <div class="cell title first">Товар</div>
+          <div class="cell title">Количество</div>
+          <div class="cell title">Аренда</div>
+          <div class="cell title">Залог</div>
+          <div class="cell last"></div>
+        </div>
+
+        <app-order-create-item
+          [begin]="order.begin"
+          [end]="order.end"
+          (deleteItem)="deleteGood(i)"
+          (changeItemEvent)="changeItemEvent()"
+          class="line"
+          [item]="item"
+          [stocks]="stocks"
+          *ngFor="let item of order.goods; let i = index"></app-order-create-item>
+
+        <div class="submit-line">
+          <span class="btn btn-success" (click)="addGood()">
+            <i class="icon-plus icon-white"></i>
+          </span>
+        </div>
+
+        <div class="separator"></div>
+        <div class="line">
+          <div class="cell first title"> Итого:</div>
+          <div class="cell">
+            <div class="name">Доставка</div>
+            <input class="price"
+                   type="number"
+                   name="total_delivery"
+                   [(ngModel)]="order.total_delivery">
+          </div>
+          <div class="cell">
+            <div class="name">Аренда</div>
+            <input class="price"
+                   type="number"
+                   name="total_amount"
+                   (ngModelChange)="order.total_amount = $event"
+                   [ngModel]="getTotalAmount() | async"
+            >
+          </div>
+          <div class="cell">
+            <div class="name">Залог</div>
+            <input class="price"
+                   type="number"
+                   name="total_deposit"
+                   [ngModel]="getTotalDeposit()"
+                   (ngModelChange)="order.total_deposit = $event">
+          </div>
+          <div class="cell last">
+            <div class="name">Всего</div>
+            <input class="price"
+                   type="number"
+                   name="total_price"
+                   (ngModelChange)="order.total_price = $event"
+                   [ngModel]="getTotalPrice() | async">
+          </div>
+        </div>
+
+        <div class="submit-line">
+          <span *ngIf="order.id" class="btn btn-info btn-recount" (click)="recount()">Пересчитать</span>
+          <span class="btn btn-primary" (click)="save()">Оформить заказ</span>
+        </div>
+        <div class="separator"></div>
+        <div class="line">
+          <div class="name">Статус заказа</div>
+          <div class="value">
+            <select name="status">
+              <option *ngFor="let status of statuses" [ngValue]="status">{{ status }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="line">
+          <div class="cell flex">
+            <div class="name">Место выдачи</div>
+            <div class="value">
+              <select name="give_stock_id"
+                      [(ngModel)]="order.give_stock_id">
+                <option *ngFor="let place of places" [ngValue]="place.id">{{ place.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name">Место возврата</div>
+            <div class="value">
+              <select name="take_stock_id"
+                      [(ngModel)]="order.take_stock_id">
+                <option *ngFor="let place of places" [ngValue]="place.id">{{ place.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Кто выдает</div>
+          <div class="value">
+            <select name="giver_id"
+                    [(ngModel)]="order.giver_id">
+              <option *ngFor="let item of employees" [ngValue]="item.id">{{ item.name }}</option>
+            </select>
+          </div>
+          <div class="name">Кто принимает</div>
+          <div class="value">
+            <select name="taker_id"
+                    [(ngModel)]="order.taker_id">
+              <option *ngFor="let item of employees" [ngValue]="item.id">{{ item.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Адрес доставки</div>
+          <div class="value">
+            <textarea class="address"
+                      name="delivery_address_from"
+                      [(ngModel)]="order.delivery_address_from"></textarea>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Адрес возврата</div>
+          <div class="value">
+            <textarea class="address"
+                      name="delivery_address_to"
+                      [(ngModel)]="order.delivery_address_to"></textarea>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Примечания</div>
+          <div class="value">
+            <textarea
+              [(ngModel)]="order.comment"
+              class="comment"
+              name="comment"></textarea>
+          </div>
+        </div>
+        <!--div class="line">
+          <div class="name">Откуда узнали</div>
+          <div class="value">
+            <select>
+              <option>Yandex</option>
+            </select>
+          </div>
+        </div-->
+      </form>
+    </div>
+  </div>
+</app-modal>

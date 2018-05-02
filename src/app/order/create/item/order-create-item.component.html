@@ -1,0 +1,31 @@
+<div class="cell flex first">
+  <select name="model_id" [(ngModel)]="item.model_id">
+    <option *ngFor="let stock of stocks" [ngValue]="stock.id">{{ stock.name }}</option>
+  </select>
+</div>
+<div class="cell flex">
+  <input type="number"
+         name="count"
+         (ngModelChange)="changeItem(item)"
+         [(ngModel)]="item.count"
+         class="price">
+</div>
+<div class="cell flex">
+  <input type="number"
+         name="price"
+         (ngModelChange)="item.price = $event"
+         [ngModel]="getPrice(item) | async"
+         class="price">
+</div>
+<div class="cell flex">
+  <input type="number"
+         name="deposit"
+         (ngModelChange)="item.deposit = $event"
+         [ngModel]="getDeposit(item)"
+         class="price">
+</div>
+<div class="cell flex last">
+  <span class="btn btn-danger" (click)="deleteItem.emit()">
+    <i class="icon-trash icon-white"></i>
+  </span>
+</div>

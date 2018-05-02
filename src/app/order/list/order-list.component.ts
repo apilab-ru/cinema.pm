@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from '../order.service';
 import {mergeMap, take} from 'rxjs/operators';
 import {OrderData} from '../../../api';
 import {filterByString} from '../../shared/utils/filters-utils';
+import {OrderCreateComponent} from '../create/create.component';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   templateUrl: './order-list.component.html',
@@ -10,40 +12,65 @@ import {filterByString} from '../../shared/utils/filters-utils';
 })
 export class OrderListComponent implements OnInit {
 
-  list: OrderData[];
+  list: OrderData[] = [];
 
   giver: string;
 
   loading: boolean = true;
 
-  constructor(private service: OrderService) {
+  @ViewChild(OrderCreateComponent) orderCreateComponent: OrderCreateComponent;
+
+  constructor(private service: OrderService,
+              private route: ActivatedRoute) {
+  }
+
+  get listFromFilter(): OrderData[] {
+    return this.list
+      .filter(this.filterByGiver.bind(this));
   }
 
   ngOnInit() {
+    this.service
+      .getList()
+      .pipe(
+        mergeMap(list => this.service.listData(list))
+      )
+      .subscribe(list => {
+        this.list = list;
+      });
+
     this.reloadList();
+
+    if (this.route.snapshot.data && this.route.snapshot.data.create) {
+      this.createOrder();
+    }
   }
 
   reloadList(): void {
     this.loading = true;
     this.service
       .loadList()
-      .pipe(
-        take(1),
-        mergeMap(list => this.service.listData(list))
-      )
+      .pipe(take(1))
       .subscribe(list => {
         this.loading = false;
-        this.list = list;
       });
-  }
-
-  get listFromFilter(): OrderData[]{
-    return this.list
-      .filter(this.filterByGiver.bind(this));
   }
 
   filterByGiver(item: OrderData): boolean {
     return filterByString(item.giver.name, this.giver);
+  }
+
+  createOrder(): void {
+    this.orderCreateComponent.open();
+  }
+
+  editOrder(id: string): void {
+    this.service
+      .loadOrder(id)
+      .subscribe(data => {
+        console.log('data', data);
+        this.orderCreateComponent.open(data);
+      });
   }
 
 }
