@@ -10,18 +10,9 @@
         CRM<b>палаток</b>
       </a>
       <div class="nav-collapse collapse">
-        <ul class="nav pull-right">
-          <li class="dropdown">
-            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="icon-user"></i> Александр <i class="caret"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a tabindex="-1">Выйти из системы</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <div class="nav pull-right">
+          <app-user class="dropdown"></app-user>
+        </div>
         <ul class="nav">
           <li class="active">
             <a href="/">Главная</a>
@@ -114,3 +105,7 @@
     <p>&copy; Админ палаток</p>
   </footer>
 </div>
+
+<app-user-auth></app-user-auth>
+
+<app-spinner [show]="spinner.isShow"></app-spinner>

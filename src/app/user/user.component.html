@@ -1,0 +1,8 @@
+<a role="button" class="dropdown-toggle" (click)="toggle()">
+  <i class="icon-user"></i> {{ user?.name }} <i class="caret"></i>
+</a>
+<ul class="dropdown-menu">
+  <li>
+    <a tabindex="-1" (click)="logout()">Выйти из системы</a>
+  </li>
+</ul>

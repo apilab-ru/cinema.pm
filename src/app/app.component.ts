@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {SpinnerService} from './shared/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   showSidebar = true;
+
+  constructor(public spinner: SpinnerService) {
+  }
 
 }

@@ -68,13 +68,13 @@ export interface OrderData extends Order {
   giver: Employee;
 }
 
-export interface OrderResponse {
-  error: boolean;
+export interface OrderResponse extends BaseResponse {
   order: Order;
 }
 
 export interface BaseResponse {
-  error: boolean;
+  error?: boolean;
+  error_text?: string;
 }
 
 export interface ListOrderDetails extends BaseResponse {
@@ -84,4 +84,17 @@ export interface ListOrderDetails extends BaseResponse {
 export interface Place {
   id: string;
   name: string;
+}
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER'
+}
+
+export interface User {
+  name: string;
+  id: string;
+  login: string;
+  role: UserRole;
+  password?: string;
 }

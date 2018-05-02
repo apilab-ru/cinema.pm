@@ -58,14 +58,14 @@
         </div>
 
         <app-order-create-item
-          [begin]="order.begin"
-          [end]="order.end"
+          [begin]="order?.begin"
+          [end]="order?.end"
           (deleteItem)="deleteGood(i)"
           (changeItemEvent)="changeItemEvent()"
           class="line"
           [item]="item"
           [stocks]="stocks"
-          *ngFor="let item of order.goods; let i = index"></app-order-create-item>
+          *ngFor="let item of order?.goods; let i = index"></app-order-create-item>
 
         <div class="submit-line">
           <span class="btn btn-success" (click)="addGood()">

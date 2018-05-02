@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {BaseResponse, CreateOrder, Employee, ListOrderDetails, Order, OrderData, OrderGood, OrderResponse, Place, Stock} from '../../api';
 import {forkJoin} from 'rxjs/observable/forkJoin';
-import {map, take, tap} from 'rxjs/operators';
+import {map, mergeMap, take, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 
@@ -240,12 +240,8 @@ export class OrderService {
     this.getList()
       .pipe(take(1))
       .subscribe(list => {
-
         const index = list.findIndex(item => item.id === order.id);
         list[index] = order;
-
-        console.log('order up', order, index);
-
         this.ordersSubject.next([...list]);
       });
 
@@ -254,7 +250,9 @@ export class OrderService {
 
   addOrder(order: CreateOrder): void {
     this.getList()
-      .pipe(take(1))
+      .pipe(
+        take(1)
+      )
       .subscribe(list => {
         this.ordersSubject.next([...list, order]);
       });

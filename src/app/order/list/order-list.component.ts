@@ -5,6 +5,7 @@ import {OrderData} from '../../../api';
 import {filterByString} from '../../shared/utils/filters-utils';
 import {OrderCreateComponent} from '../create/create.component';
 import {ActivatedRoute} from '@angular/router';
+import {SpinnerService} from '../../shared/spinner.service';
 
 @Component({
   templateUrl: './order-list.component.html',
@@ -21,7 +22,8 @@ export class OrderListComponent implements OnInit {
   @ViewChild(OrderCreateComponent) orderCreateComponent: OrderCreateComponent;
 
   constructor(private service: OrderService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private spinner: SpinnerService) {
   }
 
   get listFromFilter(): OrderData[] {
@@ -41,8 +43,10 @@ export class OrderListComponent implements OnInit {
 
     this.reloadList();
 
-    if (this.route.snapshot.data && this.route.snapshot.data.create) {
-      this.createOrder();
+    if (this.route.snapshot.data) {
+      if (this.route.snapshot.data.create) {
+        this.createOrder();
+      }
     }
   }
 
@@ -57,6 +61,9 @@ export class OrderListComponent implements OnInit {
   }
 
   filterByGiver(item: OrderData): boolean {
+    if (!item.giver) {
+      return true;
+    }
     return filterByString(item.giver.name, this.giver);
   }
 
@@ -65,12 +72,15 @@ export class OrderListComponent implements OnInit {
   }
 
   editOrder(id: string): void {
+    this.spinner.show();
     this.service
       .loadOrder(id)
       .subscribe(data => {
-        console.log('data', data);
         this.orderCreateComponent.open(data);
-      });
+      }, error => {
+        alert('Ошибка');
+      })
+      .add(() => this.spinner.hide());
   }
 
 }

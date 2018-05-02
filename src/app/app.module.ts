@@ -3,8 +3,11 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedModule} from './shared/shared.module';
-import { environment } from '../environments/environment';
+import {environment} from '../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
+import {UserService} from './user/user.service';
+import {UserModule} from './user/user.module';
+import {SpinnerService} from './shared/spinner.service';
 
 @NgModule({
   declarations: [
@@ -14,10 +17,13 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    UserModule
   ],
   providers: [
-    { provide: 'API', useValue: environment.apiUrl }
+    {provide: 'API', useValue: environment.apiUrl},
+    UserService,
+    SpinnerService
   ],
   bootstrap: [AppComponent]
 })

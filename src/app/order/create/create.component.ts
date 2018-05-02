@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
+import {SpinnerService} from '../../shared/spinner.service';
 
 @Component({
   selector: 'app-order-create',
@@ -28,7 +29,9 @@ export class OrderCreateComponent implements OnInit {
 
   places: Place[];
 
-  constructor(private orderService: OrderService) {
+  constructor(
+    private orderService: OrderService,
+    private spinner: SpinnerService) {
     this.statuses = orderService.statuses;
   }
 
@@ -81,14 +84,14 @@ export class OrderCreateComponent implements OnInit {
         ]
       };
     } else {
+      order.begin = this.getDateString(new Date(order.begin));
+      order.end = this.getDateString(new Date(order.end));
       this.order = order;
     }
 
   }
 
   open(order?: Order): void {
-    order.begin = this.getDateString(new Date(order.begin));
-    order.end = this.getDateString(new Date(order.end));
     this.init(order);
     this.modal.open();
   }
@@ -137,6 +140,7 @@ export class OrderCreateComponent implements OnInit {
   }
 
   save(): void {
+    this.spinner.show();
     const order = this.order;
     forkJoin(
       order.goods.map(good => this.orderService.getPrice(good, order.begin, order.end))
@@ -171,7 +175,7 @@ export class OrderCreateComponent implements OnInit {
       })
     ).subscribe(result => {
       this.close();
-    });
+    }).add(() => this.spinner.hide());
   }
 }
 
