@@ -10,6 +10,7 @@
       [footerHeight]="40"
       [limit]="10"
       [rowHeight]="'auto'"
+      (activate)="onClick($event)"
       [reorderable]="true">
 
       <ngx-datatable-column name="Статус" prop="status"></ngx-datatable-column>
@@ -46,7 +47,9 @@
       </ngx-datatable-column>
       <ngx-datatable-column prop="id" name="Редактирование">
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span class="btn btn-primary" (click)="editOrder(value)"><i class="icon-edit icon-white"></i></span>
+          <span class="btn btn-primary" (click)="editOrder(value); $event.stopPropagation();">
+            <i class="icon-edit icon-white"></i>
+          </span>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -75,3 +78,5 @@
 </div>
 
 <app-order-create></app-order-create>
+
+<app-order-view></app-order-view>

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {BaseResponse, CreateOrder, Employee, ListOrderDetails, Order, OrderData, OrderGood, OrderResponse, Place, Stock} from '../../api';
 import {forkJoin} from 'rxjs/observable/forkJoin';
-import {map, mergeMap, take, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 
@@ -48,8 +48,9 @@ export class OrderService {
 
   statuses = [
     'ожидает',
-    'завершён',
-    'готов'
+    'забрали',
+    'вернули',
+    'отменён'
   ];
 
   places: Place[] = [
@@ -79,7 +80,16 @@ export class OrderService {
     return this.http.get<ListOrderDetails>(this.endpoint + 'list_orders_with_details')
       .pipe(
         take(1),
-        map(result => result.orders),
+        map(result => {
+
+          result.orders.forEach(order => {
+            ['total_amount', 'total_deposit'].forEach(key => {
+              order[key] = parseInt(order[key], 10);
+            });
+          });
+
+          return result.orders;
+        }),
         tap(list => this.ordersSubject.next(list))
       );
   }
@@ -88,14 +98,17 @@ export class OrderService {
     return this.ordersSubject.asObservable();
   }
 
+  // TODO загрузка товаров
   getStocks(): Observable<Stock[]> {
     return of(this.mockStocks);
   }
 
+  // TODO загрузка Сотрудников
   getEmployees(): Observable<Employee[]> {
     return of(this.mockEmployees);
   }
 
+  // TODO загрузка пунктов выдачи/приёма
   getPlaces(): Observable<Place[]> {
     return of(this.places);
   }
@@ -131,6 +144,7 @@ export class OrderService {
     }
   }
 
+  // TODO метод получени ястоимости залога
   getDeposit(item: OrderGood, stocks: Stock[]): number {
     if (item.deposit) {
       return item.deposit;
@@ -187,7 +201,7 @@ export class OrderService {
     }
   }
 
-  // TODO метод с рест и кеширование
+  // TODO метод loadPrice
   loadPrice(item: OrderGood, start: string, end: string): Observable<number> {
 
     const diff = this.difDates(start, end);

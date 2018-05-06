@@ -21,6 +21,25 @@ export interface OrderGood {
   count?: number;
 }
 
+export interface OrderRest {
+  begin: string; // Date
+  client_id: string;
+  comment: string;
+  created: string; // Date
+  delivery_address_from: string;
+  delivery_address_to: string;
+  end: string; // Date
+  give_stock_id: string;
+  giver_id: string;
+  goods: OrderGood[];
+  id: string;
+  status: string;
+  take_stock_id: string;
+  taker_id: string;
+  total_amount: string;
+  total_deposit: string;
+}
+
 export interface Order {
   begin?: string; // Date
   client_id?: string;
@@ -98,3 +117,14 @@ export interface User {
   role: UserRole;
   password?: string;
 }
+
+export interface GetOrderResponse extends BaseResponse {
+  order: Order;
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  phone: string;
+}
+

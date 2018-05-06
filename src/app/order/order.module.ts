@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {OrderCreateComponent} from './create/create.component';
 import {OrderCreateItemComponent} from './create/item/order-create-item.component';
 import { GiveComponent } from './give/give.component';
+import {OrderViewComponent} from './view/order-view.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { GiveComponent } from './give/give.component';
     OrderListComponent,
     OrderCreateComponent,
     OrderCreateItemComponent,
-    GiveComponent
+    GiveComponent,
+    OrderViewComponent
   ]
 })
 export class OrderModule {

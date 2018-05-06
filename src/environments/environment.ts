@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://a-crm.pm/api.php?action='
+  apiUrl: 'http://a-crm.pm/src/api.php?action='
 };

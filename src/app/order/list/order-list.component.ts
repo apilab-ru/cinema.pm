@@ -6,6 +6,12 @@ import {filterByString} from '../../shared/utils/filters-utils';
 import {OrderCreateComponent} from '../create/create.component';
 import {ActivatedRoute} from '@angular/router';
 import {SpinnerService} from '../../shared/spinner.service';
+import {OrderViewComponent} from '../view/order-view.component';
+
+export interface TableClickEvent {
+  type: string;
+  row: OrderData;
+}
 
 @Component({
   templateUrl: './order-list.component.html',
@@ -20,6 +26,8 @@ export class OrderListComponent implements OnInit {
   loading: boolean = true;
 
   @ViewChild(OrderCreateComponent) orderCreateComponent: OrderCreateComponent;
+
+  @ViewChild(OrderViewComponent) orderView: OrderViewComponent;
 
   constructor(private service: OrderService,
               private route: ActivatedRoute,
@@ -81,6 +89,12 @@ export class OrderListComponent implements OnInit {
         alert('Ошибка');
       })
       .add(() => this.spinner.hide());
+  }
+
+  onClick(event: TableClickEvent): void {
+    if (event.type === 'click') {
+      this.orderView.open(event.row.id);
+    }
   }
 
 }

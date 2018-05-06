@@ -1,0 +1,177 @@
+<app-modal>
+  <div class="block">
+    <div class="modal-header navbar-inner">
+      <div class="">
+        <span [ngSwitch]="order?.status">
+          <ng-container *ngSwitchCase="'ожидает'"> Выдача заказа </ng-container>
+          <ng-container *ngSwitchCase="'забрали'"> Приём заказа </ng-container>
+          <ng-container *ngSwitchCase="'вернули'"> Завершённый заказ </ng-container>
+        </span>
+        #{{ order?.id }}
+      </div>
+      <div class="muted">
+        <span class="btn btn-danger" (click)="close()">
+          <i class="icon-remove icon-white"></i>
+        </span>
+      </div>
+    </div>
+    <div class="block-content modal-block">
+      <div class="modal-form">
+        <div class="line">
+          <div class="cell flex">
+            <div class="name"> Имя</div>
+            <div class="value">
+              {{ client?.name }}
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name"> Телефон</div>
+            <div class="value">
+              {{ client?.phone }}
+            </div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="cell flex">
+            <div class="name">
+              Дата начала аренды
+            </div>
+            <div class="value">
+              {{ order?.begin }}
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name">
+              Дата окончания аренды
+            </div>
+            <div class="value">
+              {{ order?.end }}
+            </div>
+          </div>
+        </div>
+        <div class="separator"></div>
+        <div class="line">
+          <div class="cell title first">Товар</div>
+          <div class="cell title">Количество</div>
+          <div class="cell title">Аренда</div>
+          <div class="cell title">Залог</div>
+          <div class="cell last"></div>
+        </div>
+
+        <div class="line" *ngFor="let item of order?.goods;">
+          <div class="cell flex first">
+            {{ getStockName(item.model_id) }}
+          </div>
+          <div class="cell flex">
+            {{ item.count }}
+          </div>
+          <div class="cell flex">
+            {{ item.price }}
+          </div>
+          <div class="cell flex">
+            {{ item.deposit }}
+          </div>
+          <div class="cell flex last">
+          </div>
+        </div>
+
+        <div class="separator"></div>
+        <div class="line">
+          <div class="cell first title"> Итого:</div>
+          <div class="cell">
+            <div class="name">Доставка</div>
+            <!-- TODO Нет доставки в Order -->
+          </div>
+          <div class="cell">
+            <div class="name">Аренда</div>
+            {{ order?.total_amount }}
+          </div>
+          <div class="cell">
+            <div class="name">Залог</div>
+            {{ order?.total_deposit }}
+          </div>
+          <div class="cell last">
+            <div class="name">Всего</div>
+            {{ order?.total_amount + order?.total_deposit }}
+          </div>
+        </div>
+
+        <div class="submit-line">
+          <span class="btn btn-primary" (click)="reload()">
+            <i class="icon-refresh icon-white"></i>
+            Обновить
+          </span>
+
+          <!-- TODO отменить заказ -->
+          <span class="btn btn-danger" *ngIf="!isStatusComplete()">
+            Отменить заказ
+          </span>
+
+          <!-- TODO Выдать заказ -->
+          <span class="btn btn-success" *ngIf="isStatusReady()">
+            Выдать заказ
+          </span>
+
+          <!-- TODO Принять заказ -->
+          <span class="btn btn-success" *ngIf="isStatusTookAway()">
+            Принять заказ
+          </span>
+        </div>
+
+        <div class="separator"></div>
+        <div class="line">
+          <div class="name">Статус заказа</div>
+          <div class="value">
+            {{ order?.status }}
+          </div>
+        </div>
+        <div class="line">
+          <div class="cell flex">
+            <div class="name">Место выдачи</div>
+            <div class="value">
+              {{ getPlaceName(order?.give_stock_id) }}
+            </div>
+          </div>
+          <div class="cell flex">
+            <div class="name">Место возврата</div>
+            <div class="value">
+              {{ getPlaceName(order?.take_stock_id) }}
+            </div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Кто выдает</div>
+          <div class="value">
+            {{ getEmployeeName(order?.giver_id) }}
+          </div>
+          <div class="name">Кто принимает</div>
+          <div class="value">
+            {{ getEmployeeName(order?.taker_id) }}
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Адрес доставки</div>
+          <div class="value">
+            <textarea class="address"
+                      name="delivery_address_from">{{ order?.delivery_address_from }}</textarea>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Примечания</div>
+          <div class="value">
+            <textarea
+              class="comment"
+              name="comment">{{ order?.comment }}</textarea>
+          </div>
+        </div>
+        <div class="line">
+          <div class="name">Откуда узнали</div>
+          <div class="value">
+            <!-- TODO ннет инфы, откуда узнали -->
+            Yandex
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

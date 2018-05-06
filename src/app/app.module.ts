@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserService} from './user/user.service';
 import {UserModule} from './user/user.module';
 import {SpinnerService} from './shared/spinner.service';
+import {ClientsService} from './clients.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {SpinnerService} from './shared/spinner.service';
   providers: [
     {provide: 'API', useValue: environment.apiUrl},
     UserService,
-    SpinnerService
+    SpinnerService,
+    ClientsService
   ],
   bootstrap: [AppComponent]
 })
