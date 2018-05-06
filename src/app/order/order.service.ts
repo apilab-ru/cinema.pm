@@ -6,6 +6,7 @@ import {forkJoin} from 'rxjs/observable/forkJoin';
 import {map, take, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {ClientsService} from '../clients.service';
 
 @Injectable()
 export class OrderService {
@@ -72,8 +73,11 @@ export class OrderService {
     }
   ];
 
-  constructor(@Inject('API') private endpoint: string,
-              private http: HttpClient) {
+  constructor(
+    @Inject('API') private endpoint: string,
+    private http: HttpClient,
+    private clientsService: ClientsService
+  ) {
   }
 
   loadList(): Observable<Order[]> {
@@ -116,15 +120,20 @@ export class OrderService {
   listData(list: Order[]): Observable<OrderData[]> {
     return forkJoin(
       this.getStocks().pipe(take(1)),
-      this.getEmployees().pipe(take(1))
+      this.getEmployees().pipe(take(1)),
+      this.clientsService.getList()
     ).pipe(map(data => {
       const dataList: OrderData[] = [];
+
+      const [stocks, employees, clients] = data;
+
       list.forEach((item: OrderData) => {
-        item.taker = data[1].find((employee: Employee) => employee.id === item.taker_id);
-        item.giver = data[1].find((employee: Employee) => employee.id === item.giver_id);
+        item.taker = employees.find((employee: Employee) => employee.id === item.taker_id);
+        item.giver = employees.find((employee: Employee) => employee.id === item.giver_id);
         item.stocks = [];
+        item.client = clients.find(it => it.id === item.client_id);
         item.goods.map(good => {
-          const stock = data[0].find((s: Stock) => s.id === good.model_id);
+          const stock = stocks.find((s: Stock) => s.id === good.model_id);
           item.stocks.push({
             name: stock.name,
             ...good

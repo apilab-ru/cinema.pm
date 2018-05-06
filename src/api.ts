@@ -85,6 +85,7 @@ export interface OrderData extends Order {
   stocks: DataStock[];
   taker: Employee;
   giver: Employee;
+  client: Client;
 }
 
 export interface OrderResponse extends BaseResponse {

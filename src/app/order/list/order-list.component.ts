@@ -7,6 +7,7 @@ import {OrderCreateComponent} from '../create/create.component';
 import {ActivatedRoute} from '@angular/router';
 import {SpinnerService} from '../../shared/spinner.service';
 import {OrderViewComponent} from '../view/order-view.component';
+import {ClientsService} from '../../clients.service';
 
 export interface TableClickEvent {
   type: string;
@@ -25,17 +26,22 @@ export class OrderListComponent implements OnInit {
 
   loading: boolean = true;
 
+  textSearch: string;
+
   @ViewChild(OrderCreateComponent) orderCreateComponent: OrderCreateComponent;
 
   @ViewChild(OrderViewComponent) orderView: OrderViewComponent;
 
-  constructor(private service: OrderService,
-              private route: ActivatedRoute,
-              private spinner: SpinnerService) {
+  constructor(
+    private service: OrderService,
+    private route: ActivatedRoute,
+    private spinner: SpinnerService
+  ) {
   }
 
   get listFromFilter(): OrderData[] {
     return this.list
+      .filter(this.filterByText.bind(this))
       .filter(this.filterByGiver.bind(this));
   }
 
@@ -73,6 +79,28 @@ export class OrderListComponent implements OnInit {
       return true;
     }
     return filterByString(item.giver.name, this.giver);
+  }
+
+  filterByText(item: OrderData): boolean {
+    if (!this.textSearch) {
+      return true;
+    }
+
+    return this.filterByClient(item, this.textSearch)
+      || filterByString(item.comment, this.textSearch)
+      || this.filterByStock(item, this.textSearch);
+  }
+
+  filterByClient(item: OrderData, search: string): boolean {
+    return !item.client ?
+      true
+      : (
+        filterByString(item.client.name, search) || filterByString(item.client.phone, search)
+      );
+  }
+
+  filterByStock(item: OrderData, search: string): boolean {
+    return !!item.stocks.filter(it => filterByString(it.name, search)).length;
   }
 
   createOrder(): void {

@@ -1,5 +1,9 @@
 <div class="flex-line">
   <div class="flex-row">
+    <div class="find-box">
+      <span class="name"> Поиск по Имени, Телефону, Составу заказа, примечанию</span>
+      <input class="input" type="text" [(ngModel)]="textSearch">
+    </div>
     <ngx-datatable
       class="material"
       [rows]="listFromFilter"

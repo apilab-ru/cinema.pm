@@ -12,6 +12,16 @@ export class ClientsService {
   constructor() {
   }
 
+  getList(): Observable<Client[]> {
+    return of([
+      {
+        name: 'Василий',
+        id: '1',
+        phone: '8800200002'
+      }
+    ]);
+  }
+
   getClient(id: string): Observable<Client> {
     if (this.clients.has(id)) {
       return of(this.clients.get(id));
