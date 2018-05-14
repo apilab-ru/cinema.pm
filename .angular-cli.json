@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "a-crm.pm"
+    "name": "cinema.apilab.ru"
   },
   "apps": [
     {
@@ -10,7 +10,6 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "api.php",
         ".htaccess"
       ],
       "index": "index.html",
@@ -22,10 +21,6 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "assets/bootstrap/css/bootstrap.css",
-        "assets/bootstrap/css/bootstrap-responsive.css",
-        "assets/theme/DT_bootstrap.css",
-        "assets/theme/styles.css",
         "../node_modules/normalize.css/normalize.css"
       ],
       "scripts": [],

@@ -1,0 +1,16 @@
+<mat-form-field class="search-box">
+  <input matInput
+         placeholder="Введите название фильма"
+         [matAutocomplete]="auto"
+         [formControl]="stateCtrl">
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option class="item"
+                *ngFor="let cinema of filteredList | async"
+                [value]="cinema.Title"
+                (onSelectionChange)="selectCinema(cinema)">
+      <img *ngIf="cinema.Poster" class="poster" src="{{ cinema.Poster }}"/>
+      <span>{{ cinema.Title }}</span>
+    </mat-option>
+  </mat-autocomplete>
+  <mat-progress-bar [class.show]="isShowLoader" class="loader" mode="indeterminate"></mat-progress-bar>
+</mat-form-field>

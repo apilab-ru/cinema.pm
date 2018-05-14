@@ -1,16 +1,13 @@
 import {Component} from '@angular/core';
-import {SpinnerService} from './shared/spinner.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
-  showSidebar = true;
-
-  constructor(public spinner: SpinnerService) {
+  constructor() {
   }
 
 }

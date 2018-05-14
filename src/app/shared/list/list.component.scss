@@ -1,0 +1,53 @@
+@import "../../../styles/mixins";
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    width: 175px;
+    margin: 0 10px 10px 0;
+    cursor: pointer;
+    position: relative;
+
+    @include mobile {
+      width: 100%;
+    }
+
+    .delete-icon {
+      position: absolute;
+      padding: 7px;
+      cursor: pointer;
+      top:0;
+      right: 0;
+
+      &:hover {
+        color: #3f51b5;
+        background: rgba(255, 255, 255, 0.64);
+      }
+    }
+
+    &:hover {
+      background: lighten(#3f51b5,45);
+    }
+
+    .poster {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+    }
+
+    .placehoder {
+      background: #3f51b5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+      color: #fff;
+    }
+
+    .text {
+      margin-top: 10px;
+    }
+  }
+}

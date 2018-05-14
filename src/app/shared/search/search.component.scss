@@ -1,0 +1,24 @@
+.search-box {
+  width: 100%;
+  box-sizing: border-box;
+
+  .loader {
+    margin-top:5px;
+    opacity: 0;
+    transition: opacity 0.1s;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+}
+
+.item {
+
+  .poster {
+    height: 40px;
+    width: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+  }
+}

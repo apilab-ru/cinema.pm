@@ -1,0 +1,22 @@
+<mat-card class="box" *ngIf="!isShowSpinner">
+  <div class="left-col">
+    <img src="{{ cinema?.Poster }}" class="poster">
+    <div class="info">
+      <div class="title">{{ cinema?.Title }}</div>
+      <div>{{ cinema?.Released }}</div>
+    </div>
+  </div>
+
+  <div class="text">
+    <ng-container *ngFor="let item of schema;">
+      <div class="item" *ngIf="cinema && cinema[item.key]">
+        <div class="name">{{ item.name }}</div>
+        <div class="value">{{ cinema[item.key] }}</div>
+      </div>
+    </ng-container>
+  </div>
+</mat-card>
+
+<div *ngIf="isShowSpinner" class="spinner-box">
+  <mat-spinner></mat-spinner>
+</div>

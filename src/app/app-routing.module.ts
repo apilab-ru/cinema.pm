@@ -1,13 +1,19 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {StubComponent} from './shared/stub/stub.component';
-
+import {ProfileComponent} from './shared/profile/profile.component';
+import {CinemaComponent} from './shared/cinema/cinema.component';
 
 const routes: Routes = [
-  // {path: '', component: StubComponent},
-  {path: 'order', loadChildren: './order/order.module#OrderModule'},
+  {
+    path: 'profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'cinema/:id',
+    component: CinemaComponent
+  },
   { path: '',
-    redirectTo: 'order',
+    redirectTo: 'profile',
     pathMatch: 'full'
   }
 ];
