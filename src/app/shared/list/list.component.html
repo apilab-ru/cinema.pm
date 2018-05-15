@@ -6,5 +6,5 @@
     <div class="type">{{ item.Type }}</div>
     <div class="year">{{ item.Year }}</div>
   </div>
-  <mat-icon class="delete-icon" (click)="deleteItem(item)" svgIcon="delete"></mat-icon>
+  <mat-icon class="delete-icon" (click)="deleteItem(item); $event.stopPropagation()" svgIcon="delete"></mat-icon>
 </mat-card>

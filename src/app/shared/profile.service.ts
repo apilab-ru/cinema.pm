@@ -20,7 +20,7 @@ export class ProfileService {
 
   deleteCinema(id: string): void {
     const index = this.cinemas.findIndex(it => it.imdbID === id);
-    if (index) {
+    if (index !== -1) {
       this.cinemas.splice(index, 1);
       this.update();
     }
